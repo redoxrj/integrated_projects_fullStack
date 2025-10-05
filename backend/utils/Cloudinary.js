@@ -11,10 +11,10 @@ import fs from 'fs'
         api_secret: process.env.CLOUDINARY_API_SECRET 
     });
 
-export const cloudinaryUpload= async(filePath)=>{
+export const cloudinaryUpload= async(filePath,resourceType='auto')=>{
    try {
      const result = await cloudinary.uploader.upload(filePath,{
-        resource_type:'auto'
+        resource_type: resourceType,
      })
      fs.unlinkSync(filePath) //now remove file also from localPath
      return result
