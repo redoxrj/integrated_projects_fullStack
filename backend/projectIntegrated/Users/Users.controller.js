@@ -7,7 +7,6 @@ import { generateAccessToken, generateRefreshToken, hashPlainText, verifyPlainTe
 import jwt from 'jsonwebtoken'
 
 export const createUser = asyncHandler(async(req,res,next)=>{ // issesy/itney se ek callback/func/handler milega
-
     const files =req.files
     // console.log(files);
     const avatarLocalPath = files?.avatar?.[0]?.path

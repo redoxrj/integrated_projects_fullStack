@@ -2,8 +2,26 @@ import express from 'express'
 import cookieParser from 'cookie-parser'
 import { errorHandler } from './middlewares/errorHandler.js'
 import projectIntegratedRouter from './projectIntegrated/projectIntegrated.routes.js'
+import cors from 'cors'
 
 const app = express()
+// app.use(cors())
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',')    || []
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, //for cookies/sessions/jwt
+  })
+);
 app.use(express.json({limit:'100kb'}))
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
